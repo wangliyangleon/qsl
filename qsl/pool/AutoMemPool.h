@@ -132,7 +132,6 @@ public:
   void* addBuffer(void* buffer, size_t size) noexcept;
 
 private:
-  static const int FUCK_COUNT = 10;
   MemManager* pool_;      /// memory pool
   NoFreePool allocator_;  /// memory allocator
   size_t poolSize_;
