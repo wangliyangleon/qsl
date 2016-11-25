@@ -2,8 +2,6 @@
 
 #include <stdio.h>
 
-#include <gsl/gsl_byte>
-
 #include "MemPool.h"
 
 using namespace gsl;
@@ -45,6 +43,10 @@ public:
     freeList_ = static_cast<MemNode*>(p);
   }
 
+  size_t getSize() noexcept {
+    return size_;
+  }
+
 private:
   MemNode* freeList_;
   size_t size_;
@@ -53,6 +55,7 @@ private:
 
 /// Manage a big block of memory and does not free
 class NoFreePool : public MemPool {
+public:
   void create(void* buffer, size_t size) noexcept {
     buffer_ = static_cast<byte*>(buffer);
     bufferCapacity_ = size;
@@ -63,7 +66,7 @@ class NoFreePool : public MemPool {
   void* malloc(size_t size) noexcept {
     if (size <= bufferLeft_) {
       bufferLeft_ -= size;
-      return bufferLeft_ + bufferLeft_;
+      return buffer_ + bufferLeft_;
     }
     return nullptr;
   }
@@ -90,9 +93,14 @@ class NoFreePool : public MemPool {
   byte* getBuffer() noexcept {
     return buffer_;
   }
+
+  size_t getBufferCapacity() noexcept {
+    return bufferCapacity_;
+  }
+
 private:
   byte* buffer_;
-  size_t* bufferCapacity_;
+  size_t bufferCapacity_;
   size_t bufferLeft_;
   size_t bufferFree_;
 };
@@ -100,8 +108,8 @@ private:
 
 class AutoMemPool : public MemPool {
 public:
-  AutoMemPool() : pool_(nullptr), poolSize_(0),
-    minSize_(0), maxSize_(0), increaseRate_(0.0f) noexcept {}
+  AutoMemPool() noexcept : pool_(nullptr), poolSize_(0),
+    minSize_(0), maxSize_(0), increaseRate_(0.0f) {}
 
   ~AutoMemPool() noexcept {
     destroy();
@@ -125,7 +133,7 @@ public:
   int reset(void* buffer, size_t size) noexcept;
 
   int reset() noexcept {
-    return reset(buffer_, bufferCapacity_);
+    return reset(allocator_.getBuffer(), allocator_.getBufferCapacity());
   }
 
   /// DANGER
@@ -139,7 +147,7 @@ private:
   size_t maxSize_;
   float increaseRate_;
 
-  size_t getIndex(size_t size) noexcept;
+  int getIndex(size_t size) noexcept;
 
 };
 

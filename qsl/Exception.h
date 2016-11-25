@@ -27,8 +27,8 @@ public:
   ExceptionBase()
 
 protected:
-  int _level;
-  std::string 
+  int level_;
+  std::string msg_;
 
 };
 

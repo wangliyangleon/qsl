@@ -1,42 +1,44 @@
 #pragma once
 
+#include <set>
+
 #include "AutoMemPool.h"
 
 namespace qsl {
 
 class InflatePool : public MemPool {
 public:
-  InflatePool() : maxBlockSize_(0), buffer_(nullptr), bufferSize_(0),
+  InflatePool() noexcept : maxBlockSize_(0), buffer_(nullptr), bufferSize_(0),
       totalSize_(0), consumedSize_(0) {}
 
-  ~InflatePool() {
+  ~InflatePool() noexcept {
     destroy();
   }
 
-  size_t getTotalSize() {
+  size_t getTotalSize() noexcept {
     return totalSize_;
   }
 
-  size_t getConsumedSize() {
+  size_t getConsumedSize() noexcept {
     return consumedSize_;
   }
 
-  size_t getFreeSize() {
+  size_t getFreeSize() noexcept {
     return totalSize_ - consumedSize_;
   }
 
   int create(size_t maxBlockSize = (1 << 20) /* 1m */,
-             size_t bmin = sizeof(void*),
-             size_t bmax = (1 << 16),
-             float increaseRate = 2.0f);
+             size_t blockMinSize = sizeof(void*),
+             size_t blockMaxSize = (1 << 16),
+             float increaseRate = 2.0f) noexcept;
 
-  void destroy();
+  void destroy() noexcept;
 
-  void* malloc(size_t size);
+  void* malloc(size_t size) noexcept;
 
-  void free(void* p, size_t size);
+  void free(void* p, size_t size) noexcept;
 
-  void clear();
+  void clear() noexcept;
 
 
 private:

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "CommonInclude.h"
+#include "../CommonInclude.h"
 
 namespace qsl {
 

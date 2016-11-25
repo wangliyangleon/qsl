@@ -17,15 +17,26 @@ brewget autoconf automake libtool
 
 # dependencies
 brewget glog gflags
+# install GSL
 test -d GSL && mv GSL GSL_`date +%s`
 git clone https://github.com/Microsoft/GSL.git GSL
+pushd GSL
+mkdir build
+cd build
+cmake -G "Unix Makefiles" ../
+cmake --build . --config Debug
+ctest -C Debug
+test $? -eq 0 || {
+  echo "BE CAREFUL!!! GSL is not fully supported in your env!"
+}
+popd
 
-#autoreconf -i
-#./configure
+autoreconf -i
+./configure
 
 pushd test
-test -e gtest-1.7.0.zip || {
-    curl -O https://googletest.googlecode.com/files/gtest-1.7.0.zip
-    unzip gtest-1.7.0.zip
+test -e gtest-1.8.0.zip || {
+    wget https://github.com/google/googletest/archive/release-1.8.0.zip -O gtest-1.8.0.zip
+    unzip gtest-1.8.0.zip
 }
 popd

@@ -4,7 +4,14 @@
 #include <stdlib.h>
 #include <new>
 
-#include <gsl>
+#include <gsl/gsl>
+
+#define SAFE_FREE_MEMORY(ptr) do {    \
+  if (ptr != nullptr) {               \
+    ::free(ptr);                      \
+    ptr = nullptr;                    \
+  }                                   \
+} while (0);
 
 #define SAFE_DELETE_ARRAY(array) do {   \
   if (array != nullptr) {               \
