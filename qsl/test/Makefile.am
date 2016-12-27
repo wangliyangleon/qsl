@@ -1,7 +1,9 @@
 SUBDIRS = .
 ACLOCAL_AMFLAGS = -I m4
 
-TESTS = mem_pool_test
+TESTS = mem_pool_test	\
+				text_buffer_test \
+				text_buffer_with_mem_pool_test
 
 check_LTLIBRARIES = libqsltestmain.la libgmockgtest.la
 check_PROGRAMS = $(TESTS)
@@ -19,3 +21,7 @@ libqsltestmain_la_LIBADD = $(top_builddir)/libquackstandardlib.la libgmockgtest.
 
 mem_pool_test_SOURCES = MemPoolTest.cpp
 mem_pool_test_LDADD = libqsltestmain.la
+text_buffer_test_SOURCES = TextBufferTest.cpp
+text_buffer_test_LDADD = libqsltestmain.la
+text_buffer_with_mem_pool_test_SOURCES = TextBufferWithMemPoolTest.cpp
+text_buffer_with_mem_pool_test_LDADD = libqsltestmain.la
