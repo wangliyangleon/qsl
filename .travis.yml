@@ -8,9 +8,9 @@ branches:
   only:
     - master
 before_install:
-  - sh build/bootstrap-osx-homebrew.sh
+  - cd qsl && sh build/bootstrap-osx-homebrew.sh
 script:
-  - sh build/rebuild_and_check.sh
+  - cd qsl && sh build/rebuild_and_check.sh
 notifications:
   email:
     on_success: never
