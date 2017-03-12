@@ -53,7 +53,7 @@ AC_TYPE_UINT64_T
 # Checks for library functions.
 AC_FUNC_MALLOC
 
-AM_CPPFLAGS='-I$(top_srcdir) -I$(top_srcdir)/GSL -I$(top_srcdir)/test/googletest-release-1.8.0/googlemock/include -I$(top_srcdir)/test/googletest-release-1.8.0/googletest/include'
+AM_CPPFLAGS='-I$(top_srcdir) -I$(top_srcdir)/GSL/include -I$(top_srcdir)/test/googletest-release-1.8.0/googlemock/include -I$(top_srcdir)/test/googletest-release-1.8.0/googletest/include'
 AM_CPPFLAGS="$AM_CPPFLAGS $CXX_FLAGS"
 AC_SUBST([AM_CPPFLAGS])
 

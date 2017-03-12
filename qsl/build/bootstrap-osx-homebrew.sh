@@ -18,10 +18,12 @@ brewget autoconf automake libtool
 # dependencies
 brewget glog gflags
 # get gitignore
-git clone https://github.com/github/gitignore.git gitignore
-cat qsl.gitignore > .gitignore
-cat gitignore/C++.gitignore >> .gitignore
-cat gitignore/Autotools.gitignore >> .gitignore
+test -d gitignore || {
+  git clone https://github.com/github/gitignore.git gitignore
+  cat qsl.gitignore > .gitignore
+  cat gitignore/C++.gitignore >> .gitignore
+  cat gitignore/Autotools.gitignore >> .gitignore
+}
 
 # install GSL
 test -d GSL && mv GSL GSL_`date +%s`
