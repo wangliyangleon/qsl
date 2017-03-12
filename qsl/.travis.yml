@@ -1,0 +1,17 @@
+sudo: false
+language: cpp
+os: osx
+compiler:
+  - clang
+  - gcc
+branches:
+  only:
+    - master
+before_install:
+  - sh build/bootstrap-osx-homebrew.sh
+script:
+  - sh build/rebuild_and_check.sh
+notifications:
+  email:
+    on_success: never
+    on_failure: always
